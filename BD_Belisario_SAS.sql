@@ -8,7 +8,7 @@ GO
 USE belisario_sas;
 GO
 
--- CREACIÓN DE TABLAS 
+-- CREACIÃ“N DE TABLAS 
 CREATE TABLE clientes (
     id_cliente INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -50,14 +50,14 @@ CREATE TABLE facturacion (
 
  -- DATOS DE PRUEBA 
  INSERT INTO clientes (nombre, tipo_documento, documento, telefono, correo) VALUES
-('Carlos Gómez', 'CC', '1012345678', '3201112233', 'carlos@email.com'),
-('María Fernanda López', 'CC', '1029384756', '3112203344', 'maria.lopez@gmail.com'),
+('Carlos GÃ³mez', 'CC', '1012345678', '3201112233', 'carlos@email.com'),
+('MarÃ­a Fernanda LÃ³pez', 'CC', '1029384756', '3112203344', 'maria.lopez@gmail.com'),
 ('Empresa ABC SAS', 'NIT', '900123456', '3155558899', 'contacto@abc.com'),
-('Jorge Rodríguez', 'CC', '9876543210', '3005678899', 'jorger@gmail.com'),
-('Luisa Martínez', 'CC', '1034567890', '3019988776', 'luisa.martinez@hotmail.com'),
+('Jorge RodrÃ­guez', 'CC', '9876543210', '3005678899', 'jorger@gmail.com'),
+('Luisa MartÃ­nez', 'CC', '1034567890', '3019988776', 'luisa.martinez@hotmail.com'),
 ('Servicios Integrales LTDA', 'NIT', '901223344', '3176655443', 'info@serviciosintegrales.com'),
 ('Pedro Silva', 'CC', '1100220033', '3001122334', 'pedro.silva@yahoo.com'),
-('Claudia Ramírez', 'CC', '1099887766', '3205566778', 'claudia.ramirez@gmail.com'),
+('Claudia RamÃ­rez', 'CC', '1099887766', '3205566778', 'claudia.ramirez@gmail.com'),
 ('Cliente Prueba Error', 'CC', NULL, NULL, 'malcorreo.com'),
 ('Marcos Prieto', 'CC', '1019988776', '3123456789', 'marcosprieto@empresa.com');
 
@@ -67,8 +67,8 @@ INSERT INTO profesionales (nombre, especialidad, telefono, correo) VALUES
 ('Error user', NULL, '3110000000', 'correo_mal');
 
 INSERT INTO casos_juridicos (id_cliente, id_profesional, tipo_caso, fecha_apertura, estado, descripcion) VALUES
-(1, 1, 'Despido sin justa causa', '2025-01-10', 'En trámite', 'Demanda laboral por despido injustificado'),
-(2, 2, 'Accidente laboral SST', '2025-01-15', 'Finalizado', 'Investigación accidente laboral'),
+(1, 1, 'Despido sin justa causa', '2025-01-10', 'En trÃ¡mite', 'Demanda laboral por despido injustificado'),
+(2, 2, 'Accidente laboral SST', '2025-01-15', 'Finalizado', 'InvestigaciÃ³n accidente laboral'),
 (NULL, 1, 'Error caso', '2025-02-01', 'Pendiente', 'Caso sin cliente');
 
 INSERT INTO facturacion (id_caso, fecha, valor, impuestos) VALUES
@@ -92,7 +92,7 @@ CREATE TABLE log_errores (
     fecha_error DATETIME DEFAULT GETDATE()
 );
 
--- VALIDACIÓN ETL
+-- VALIDACIÃ“N ETL
 --Total incorrecto
 INSERT INTO log_errores (tabla_afectada, id_registro, descripcion_error)
 SELECT 'facturacion', id_factura, 'Total incorrecto'
@@ -125,19 +125,19 @@ WHERE id_cliente IS NULL;
 
 -- Correos 
 INSERT INTO log_errores (tabla_afectada, id_registro, descripcion_error)
-SELECT 'clientes', id_cliente, 'Correo inválido'
+SELECT 'clientes', id_cliente, 'Correo invÃ¡lido'
 FROM clientes
 WHERE correo NOT LIKE '%@%';
 
 -- Doc vacio 
 INSERT INTO log_errores (tabla_afectada, id_registro, descripcion_error)
-SELECT 'clientes', id_cliente, 'Documento vacío'
+SELECT 'clientes', id_cliente, 'Documento vacÃ­o'
 FROM clientes
 WHERE documento IS NULL OR documento = '';
 
 -- Profesional sin especialidad
 INSERT INTO log_errores (tabla_afectada, id_registro, descripcion_error)
-SELECT 'profesionales', id_profesional, 'Especialidad vacía'
+SELECT 'profesionales', id_profesional, 'Especialidad vacÃ­a'
 FROM profesionales
 WHERE especialidad IS NULL OR especialidad = '';
 
@@ -171,7 +171,7 @@ WHERE id_cliente IS NULL;
 
 -- Vista de datos limpios 
 GO 
-DROP VIEW IF EXISTS vw_facturacion_limpia;
+DROP VIEW IF EXISTS v_facturacion_limpia;
 GO
 
 CREATE VIEW v_facturacion_limpia AS
@@ -220,6 +220,7 @@ ORDER BY mes;
 
 
 select * from log_errores
+
 
 
 
